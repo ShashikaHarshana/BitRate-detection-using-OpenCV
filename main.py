@@ -53,7 +53,7 @@ def get_color_depth(video_format):
 
 def run():
     # variables to calculate Fps
-    counter, fps = 0, 0
+    counter, print_counter, fps = 0, 0, 0
     start_time = time.time()
     fps_avg_frame_count = 10
 
@@ -83,13 +83,14 @@ def run():
 
         if counter % 10 == 0:
             print(bit_rate)
+            print_counter += 1
 
         # live stream
         # cv2.imshow('streaming', image)
         # cv2.imshow('live', image)
 
         # press esc to close the window
-        if cv2.waitKey(1) == 27:
+        if print_counter == 10:
             break
 
     cap.release()
