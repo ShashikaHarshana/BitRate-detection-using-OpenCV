@@ -57,7 +57,7 @@ def run():
     start_time = time.time()
     fps_avg_frame_count = 10
 
-    cap = cv2.VideoCapture('http://192.168.47.235/mjpeg/1')
+    cap = cv2.VideoCapture('http://10.10.49.224:6677/videofeed?username=&password=')
 
     while cap.isOpened():
         success, image = cap.read()
