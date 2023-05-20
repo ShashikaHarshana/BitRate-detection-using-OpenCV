@@ -2,9 +2,14 @@ import sys
 import time
 import os
 import cv2
+import argparse
 
-im = None
-
+parser = argparse.ArgumentParser(description='Bitrate monitor')
+parser.add_argument('--url', type=str, help='URL of the video feed')
+parser.add_argument('--count', type=int, help='Number of bitrate measurements')
+args = parser.parse_args()
+video_feed_url = args.url
+measurements_limit = args.count
 
 def calculate_fps(start_time, fps_avg_frame_count):
     end_time = time.time()
@@ -25,39 +30,13 @@ def get_color_depth(video_format):
 
     return color_depth
 
-
-# def get_node_name():
-#     # Load the Kubernetes configuration
-#     config.load_incluster_config()
-#
-#     # Create the Kubernetes API client
-#     api_instance = client.CoreV1Api()
-#
-#     # Get the name of the current pod
-#     pod_name = os.environ['HOSTNAME']
-#
-#     # Get the namespace of the current pod
-#     namespace = open('/var/run/secrets/kubernetes.io/serviceaccount/namespace').read()
-#
-#     # Get the pod object
-#     pod = api_instance.read_namespaced_pod(name=pod_name, namespace=namespace)
-#
-#     # Get the name of the node where the pod is running
-#     node_name = pod.spec.node_name
-#
-#     # Set the node name as an environment variable
-#     os.environ['NODE_NAME'] = node_name
-#
-#     print(os.environ['NODE_NAME'])
-
-
 def run():
     # variables to calculate Fps
     counter, print_counter, fps = 0, 0, 0
     start_time = time.time()
     fps_avg_frame_count = 10
 
-    cap = cv2.VideoCapture('http://10.10.49.224:6677/videofeed?username=&password=')
+    cap = cv2.VideoCapture(video_feed_url)
 
     while cap.isOpened():
         success, image = cap.read()
@@ -85,21 +64,15 @@ def run():
             print(bit_rate)
             print_counter += 1
 
-        # live stream
-        # cv2.imshow('streaming', image)
-        # cv2.imshow('live', image)
-
         # press esc to close the window
-        if print_counter == 10:
+        if print_counter == measurements_limit:
             break
 
     cap.release()
     cv2.destroyAllWindows()
 
-
 def main():
     run()
-
 
 if __name__ == '__main__':
     main()

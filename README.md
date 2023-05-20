@@ -1,1 +1,0 @@
-# BitRate-detection-using-OpenCV
