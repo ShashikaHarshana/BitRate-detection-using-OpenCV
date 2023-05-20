@@ -14,7 +14,7 @@ WORKDIR /app
 COPY main.py .
 
 # Install the required Python packages
-RUN pip install opencv_python-4.7.0.72-cp37-cp37m-linux_armv7l.whl
+RUN pip install opencv_python-4.5.3.56-cp39-cp39-linux_armv7l.whl
 
 # Run the Python file
 CMD ["python", "main.py"]
